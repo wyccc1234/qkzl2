@@ -10,15 +10,35 @@
             --color-primary: #FF9EB5;
             --color-primary-light: #FFD6E0;
             --color-primary-dark: #FF7096;
+            
             --color-secondary: #A9DEF9;
             --color-secondary-light: #D6F3FF;
             --color-secondary-dark: #7AC5EA;
-            --color-text: #333333;
-            --color-text-light: #666666;
-            --color-bg: #FFFFFF;
-            --color-bg-light: #F8F9FA;
-            --border-radius: 8px;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            
+            --color-accent: #FFB347;
+            --color-success: #A8E6CF;
+            --color-purple: #D4A5FF;
+            
+            --color-text-dark: #333333;
+            --color-text-medium: #666666;
+            --color-text-light: #999999;
+            --color-background: #FFFFFF;
+            --color-background-light: #F8F9FA;
+            
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+            
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            
+            --container-max-width: 1200px;
+            --container-padding: 20px;
         }
 
         * {
@@ -27,434 +47,717 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
-            color: var(--color-text);
-            line-height: 1.6;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 16px;
+            color: var(--color-text-dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+            background-color: var(--color-background-light);
         }
 
         a {
             text-decoration: none;
             color: var(--color-primary-dark);
+            transition: color var(--transition-fast);
         }
 
-        ul {
+        a:hover {
+            color: var(--color-primary);
+        }
+
+        ul, ol {
             list-style: none;
         }
 
         img {
             max-width: 100%;
             height: auto;
+            display: block;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            background: none;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: var(--container-max-width);
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 var(--container-padding);
         }
 
         .section {
-            padding: 60px 0;
+            padding: 80px 0;
+            position: relative;
         }
 
-        .section-title {
+        .section-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
             color: var(--color-primary-dark);
+            position: relative;
+            display: inline-block;
         }
 
-        .section-title h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--color-primary);
         }
 
-        .section-title p {
-            color: var(--color-text-light);
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--color-text-medium);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         /* 按钮样式 */
         .btn {
             display: inline-block;
             padding: 12px 24px;
-            background: var(--color-primary);
-            color: white;
-            border-radius: var(--border-radius);
+            border-radius: var(--border-radius-md);
+            font-weight: 500;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all var(--transition-normal);
+            cursor: pointer;
         }
 
-        .btn:hover {
-            background: var(--color-primary-dark);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 112, 150, 0.3);
+        }
+
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 112, 150, 0.4);
+            box-shadow: 0 6px 12px rgba(255, 112, 150, 0.4);
+            color: white;
         }
 
-        /* 导航栏 */
+        .btn-outline {
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary-dark);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* 导航栏样式 */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: white;
-            box-shadow: var(--shadow);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
             z-index: 1000;
+            transition: all var(--transition-normal);
         }
 
-        .navbar {
+        .header .container {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            justify-content: space-between;
+            height: 80px;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--color-primary-dark);
-        }
-
-        .nav-menu {
             display: flex;
+            align-items: center;
         }
 
-        .nav-item {
-            margin: 0 15px;
+        .logo img {
+            height: 50px;
+            width: auto;
         }
 
-        .nav-link {
-            color: var(--color-text);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--color-primary);
-        }
-
-        .menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* 英雄区域 */
-        .hero {
-            padding: 120px 0 60px;
-            background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary-light));
-            text-align: center;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--color-primary-dark);
-        }
-
-        .hero-description {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: var(--color-text);
-        }
-
-        /* 特色区域 */
-        .features {
-            text-align: center;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        .main-nav ul {
+            display: flex;
             gap: 30px;
         }
 
-        .feature-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease;
+        .main-nav ul li a {
+            font-weight: 500;
+            color: var(--color-text-dark);
+            position: relative;
         }
 
-        .feature-card:hover {
-            transform: translateY(-10px);
+        .main-nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-primary);
+            transition: width var(--transition-normal);
         }
 
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: var(--color-primary);
-        }
-
-        .feature-title {
-            margin-bottom: 15px;
-            color: var(--color-primary-dark);
-        }
-
-        /* 角色区域 */
-        .characters {
-            background-color: var(--color-bg-light);
-        }
-
-        .characters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
-        }
-
-        .character-card {
-            background: white;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease;
-        }
-
-        .character-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .character-image {
-            height: 300px;
-            overflow: hidden;
-        }
-
-        .character-image img {
+        .main-nav ul li a:hover::after,
+        .main-nav ul li a.active::after {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
         }
 
-        .character-card:hover .character-image img {
-            transform: scale(1.1);
-        }
-
-        .character-info {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .character-name {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-            color: var(--color-primary-dark);
-        }
-
-        .character-role {
-            font-size: 0.9rem;
-            color: var(--color-text-light);
-            margin-bottom: 10px;
-        }
-
-        /* 游戏公告 */
-        .announcements-list {
-            display: grid;
+        .nav-right {
+            display: flex;
+            align-items: center;
             gap: 20px;
         }
 
-        .announcement-item {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .announcement-date {
-            padding-right: 20px;
-            margin-right: 20px;
-            border-right: 1px solid #eee;
-            text-align: center;
-            min-width: 60px;
-        }
-
-        .announcement-day {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--color-primary);
-            line-height: 1;
-        }
-
-        .announcement-month {
-            font-size: 0.9rem;
-            color: var(--color-text-light);
-        }
-
-        .announcement-content h3 {
-            margin-bottom: 10px;
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 1.5rem;
             color: var(--color-primary-dark);
+            cursor: pointer;
         }
 
-        /* 游戏动态 */
-        .news-grid {
+        /* 移动端菜单 */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: var(--shadow-lg);
+            z-index: 1100;
+            transition: right var(--transition-slow);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        /* 首页轮播图 */
+        .hero-carousel {
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: relative;
+            height: 600px;
+        }
+
+        .carousel-slides {
+            position: relative;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .carousel-slide img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.7);
+        }
+
+        .slide-content {
+            color: white;
+            padding: 0 50px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .slide-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            gap: 10px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .indicator.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        .carousel-control {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 0 20px;
+            transition: all var(--transition-normal);
+        }
+
+        .carousel-control:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        /* 游戏介绍 */
+        .game-intro {
+            background-color: var(--color-background);
+        }
+
+        .intro-content {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .intro-text p {
+            margin-bottom: 20px;
+            color: var(--color-text-medium);
+        }
+
+        .intro-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
 
-        .news-card {
-            background: white;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
+        .feature-item {
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            background-color: var(--color-background-light);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            text-align: center;
         }
 
-        .news-image {
+        .feature-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .intro-screenshots {
+            margin-top: 50px;
+        }
+
+        .intro-screenshots h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--color-primary-dark);
+        }
+
+        .screenshots-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .screenshot {
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
             height: 200px;
         }
 
-        .news-image img {
+        .screenshot:hover {
+            transform: scale(1.03);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .screenshot img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .news-content {
-            padding: 20px;
+        /* 联系我们部分 */
+        .contact {
+            background-color: var(--color-background-light);
+            position: relative;
+            overflow: hidden;
         }
 
-        .news-date {
-            font-size: 0.9rem;
-            color: var(--color-text-light);
-            margin-bottom: 10px;
-        }
-
-        .news-title {
-            margin-bottom: 10px;
-            color: var(--color-primary-dark);
-        }
-
-        /* 底部区域 */
-        .footer {
-            background-color: #333;
-            color: white;
-            padding: 50px 0 20px;
-        }
-
-        .footer-content {
+        .contact-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--color-primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary-dark);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .contact-text h4 {
+            margin-bottom: 5px;
+            color: var(--color-text-dark);
+        }
+
+        .contact-text p {
+            color: var(--color-text-medium);
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--color-text-dark);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(255, 157, 181, 0.2);
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* 页脚 */
+        .footer {
+            background-color: #2A2A2A;
+            color: white;
+            padding: 80px 0 30px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 50px;
+            margin-bottom: 50px;
         }
 
         .footer-logo {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: white;
+            display: flex;
+            flex-direction: column;
         }
 
-        .footer-links h3 {
-            margin-bottom: 15px;
-            color: white;
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+            margin-bottom: 20px;
         }
 
-        .footer-links ul li {
+        .footer-logo p {
+            color: #bbb;
+            margin-bottom: 20px;
+        }
+
+        .social-media {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all var(--transition-normal);
+        }
+
+        .social-icon:hover {
+            background-color: var(--color-primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .footer-links-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-links-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--color-primary);
+        }
+
+        .footer-links-column ul li {
             margin-bottom: 10px;
         }
 
-        .footer-links a {
-            color: #aaa;
-            transition: color 0.3s ease;
+        .footer-links-column ul li a {
+            color: #bbb;
+            transition: all var(--transition-normal);
         }
 
-        .footer-links a:hover {
-            color: var(--color-primary-light);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            color: #aaa;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--color-primary-light);
+        .footer-links-column ul li a:hover {
+            color: var(--color-primary);
+            padding-left: 5px;
         }
 
         .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #555;
-            color: #aaa;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .footer-policies {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-policies a {
+            color: #999;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-policies a:hover {
+            color: var(--color-primary);
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 管理员链接样式 */
+        .admin-link {
+            color: #999;
+            font-size: 0.85rem;
+            margin-left: 20px;
+            transition: color var(--transition-fast);
+        }
+
+        .admin-link:hover {
+            color: var(--color-primary-light);
         }
 
         /* 响应式设计 */
-        @media (max-width: 768px) {
-            .menu-toggle {
+        @media (max-width: 992px) {
+            .main-nav {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
                 display: block;
             }
-
-            .nav-menu {
-                position: fixed;
-                top: 70px;
-                right: -100%;
-                width: 70%;
-                height: calc(100vh - 70px);
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                padding: 30px 0;
-                transition: right 0.3s ease;
-                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            }
-
-            .nav-menu.active {
-                right: 0;
-            }
-
-            .nav-item {
-                margin: 15px 0;
-            }
-
-            .hero {
-                padding: 100px 0 50px;
-            }
-
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .features-grid,
-            .characters-grid,
-            .news-grid {
+            
+            .intro-content {
                 grid-template-columns: 1fr;
             }
+            
+            .screenshots-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
 
-            .announcement-item {
+        @media (max-width: 768px) {
+            .feature-item {
+                padding: 20px;
+            }
+            
+            .intro-features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .intro-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .screenshots-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .footer-bottom {
                 flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
-
-            .announcement-date {
-                padding-right: 0;
-                margin-right: 0;
-                border-right: none;
-                border-bottom: 1px solid #eee;
-                padding-bottom: 10px;
-                margin-bottom: 10px;
-                display: flex;
-                align-items: center;
+            
+            .footer-policies {
                 justify-content: center;
-                gap: 10px;
-            }
-
-            .announcement-day,
-            .announcement-month {
-                font-size: 1rem;
             }
         }
     </style>
@@ -463,180 +766,129 @@
     <!-- 导航栏 -->
     <header class="header">
         <div class="container">
-            <nav class="navbar">
-                <div class="logo">青空之恋</div>
-                <ul class="nav-menu">
-                    <li class="nav-item"><a href="#" class="nav-link active">首页</a></li>
-                    <li class="nav-item"><a href="#features" class="nav-link">游戏特色</a></li>
-                    <li class="nav-item"><a href="#characters" class="nav-link">角色介绍</a></li>
-                    <li class="nav-item"><a href="#announcements" class="nav-link">游戏公告</a></li>
-                    <li class="nav-item"><a href="#news" class="nav-link">游戏动态</a></li>
-                    <li class="nav-item"><a href="#contact" class="nav-link">联系我们</a></li>
+            <div class="logo">
+                <img src="https://via.placeholder.com/150x50?text=Logo" alt="青空之恋Logo">
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#home" class="active">首页</a></li>
+                    <li><a href="#game-intro">游戏介绍</a></li>
+                    <li><a href="#community">社区交流</a></li>
+                    <li><a href="#announcements">公告</a></li>
+                    <li><a href="#characters">角色</a></li>
+                    <li><a href="#news">动态</a></li>
+                    <li><a href="#contact">联系我们</a></li>
                 </ul>
-                <div class="menu-toggle">☰</div>
             </nav>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars">&#9776;</i>
+            </div>
         </div>
     </header>
 
-    <!-- 英雄区域 -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">青空之恋 - 二次元浪漫冒险</h1>
-                <p class="hero-description">探索充满魔法与冒险的幻想世界，与各种性格鲜明的角色一起成长，体验感人至深的故事</p>
-                <a href="#" class="btn">立即体验</a>
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <img src="https://via.placeholder.com/150x50?text=Logo" alt="青空之恋Logo">
+            </div>
+            <div class="close-menu">
+                <i class="fas fa-times">&times;</i>
             </div>
         </div>
-    </section>
+        <ul>
+            <li><a href="#home">首页</a></li>
+            <li><a href="#game-intro">游戏介绍</a></li>
+            <li><a href="#community">社区交流</a></li>
+            <li><a href="#announcements">公告</a></li>
+            <li><a href="#characters">角色</a></li>
+            <li><a href="#news">动态</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+    </div>
 
-    <!-- 特色区域 -->
-    <section id="features" class="section features">
-        <div class="container">
-            <div class="section-title">
-                <h2>游戏特色</h2>
-                <p>让您爱不释手的游戏体验</p>
+    <!-- 首页轮播图 -->
+    <section id="home" class="hero-carousel">
+        <div class="carousel-container">
+            <div class="carousel-slides">
+                <div class="carousel-slide active" data-index="0">
+                    <img src="https://via.placeholder.com/1200x600?text=Slide+1" alt="青空之恋主视觉">
+                    <div class="slide-content">
+                        <h2>探索青空之恋</h2>
+                        <p>全新的二次元冒险之旅，等你一起创造奇迹！</p>
+                        <a href="#" class="btn btn-primary">立即体验</a>
+                    </div>
+                </div>
+                <div class="carousel-slide" data-index="1">
+                    <img src="https://via.placeholder.com/1200x600?text=Slide+2" alt="季节活动">
+                    <div class="slide-content">
+                        <h2>夏日庆典</h2>
+                        <p>参与限时活动，赢取稀有角色和丰厚奖励！</p>
+                        <a href="#" class="btn btn-primary">查看详情</a>
+                    </div>
+                </div>
+                <div class="carousel-slide" data-index="2">
+                    <img src="https://via.placeholder.com/1200x600?text=Slide+3" alt="新角色上线">
+                    <div class="slide-content">
+                        <h2>新角色「星辰之子」</h2>
+                        <p>掌握星辰之力的神秘角色，现已加入战场！</p>
+                        <a href="#" class="btn btn-primary">了解更多</a>
+                    </div>
+                </div>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3 class="feature-title">精美角色</h3>
-                    <p>数十位个性鲜明的二次元角色，每位角色都有独特的技能与成长路线</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📖</div>
-                    <h3 class="feature-title">沉浸剧情</h3>
-                    <p>精心编写的主线剧情与角色故事，带你体验感人至深的冒险旅程</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚔️</div>
-                    <h3 class="feature-title">实时对战</h3>
-                    <p>创新的实时战斗系统，考验玩家策略与反应能力的同时保持轻松体验</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 角色区域 -->
-    <section id="characters" class="section characters">
-        <div class="container">
-            <div class="section-title">
-                <h2>角色介绍</h2>
-                <p>每个角色都有独特的故事和能力</p>
-            </div>
-            <div class="characters-grid">
-                <div class="character-card">
-                    <div class="character-image">
-                        <img src="https://via.placeholder.com/300x400/FFB6C1/FFFFFF?text=小芸" alt="角色小芸">
-                    </div>
-                    <div class="character-info">
-                        <h3 class="character-name">小芸</h3>
-                        <p class="character-role">治疗师</p>
-                        <p>温柔善良的女孩，拥有强大的治愈能力</p>
-                    </div>
-                </div>
-                <div class="character-card">
-                    <div class="character-image">
-                        <img src="https://via.placeholder.com/300x400/87CEFA/FFFFFF?text=雯雯" alt="角色雯雯">
-                    </div>
-                    <div class="character-info">
-                        <h3 class="character-name">雯雯</h3>
-                        <p class="character-role">法师</p>
-                        <p>聪明机智的少女，擅长元素魔法</p>
-                    </div>
-                </div>
-                <div class="character-card">
-                    <div class="character-image">
-                        <img src="https://via.placeholder.com/300x400/D6F3FF/333333?text=柔风" alt="角色柔风">
-                    </div>
-                    <div class="character-info">
-                        <h3 class="character-name">柔风</h3>
-                        <p class="character-role">战士</p>
-                        <p>勇敢坚强的少年，擅长近身战斗</p>
-                    </div>
+            <div class="carousel-controls">
+                <div class="carousel-indicators">
+                    <span class="indicator active" data-index="0"></span>
+                    <span class="indicator" data-index="1"></span>
+                    <span class="indicator" data-index="2"></span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 游戏公告 -->
-    <section id="announcements" class="section announcements">
+    <!-- 游戏介绍 -->
+    <section id="game-intro" class="section game-intro">
         <div class="container">
-            <div class="section-title">
-                <h2>游戏公告</h2>
-                <p>了解最新游戏动态和更新信息</p>
+            <div class="section-header">
+                <h2>游戏介绍</h2>
+                <p>探索充满魔法与冒险的二次元幻想世界</p>
             </div>
-            <div class="announcements-list">
-                <div class="announcement-item">
-                    <div class="announcement-date">
-                        <div class="announcement-day">15</div>
-                        <div class="announcement-month">6月</div>
-                    </div>
-                    <div class="announcement-content">
-                        <h3>游戏版本更新1.2.0</h3>
-                        <p>本次更新包含多项游戏优化和新功能，新增了"星辰之塔"挑战玩法，同时调整了部分角色技能平衡性。</p>
-                    </div>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <h3>世界观</h3>
+                    <p>《青空之恋》是一款融合了东方与西方幻想元素的二次元角色扮演游戏。在这个充满魔法的世界中，玩家将扮演一位被选中的勇者，与各种性格鲜明的角色一起冒险，对抗邪恶势力，拯救世界的和平。</p>
+                    <p>游戏中包含丰富的剧情任务、养成系统、社交互动以及实时战斗玩法，让玩家沉浸在精彩纷呈的冒险旅程中。无论你是喜欢收集角色、体验剧情，还是挑战高难度战斗，都能在《青空之恋》中找到乐趣。</p>
                 </div>
-                <div class="announcement-item">
-                    <div class="announcement-date">
-                        <div class="announcement-day">10</div>
-                        <div class="announcement-month">6月</div>
+                <div class="intro-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <img src="https://via.placeholder.com/60x60?text=F1" alt="特色功能">
+                        </div>
+                        <h4>精美角色</h4>
+                        <p>数十位个性鲜明的二次元角色，每位角色都有独特的技能与成长路线</p>
                     </div>
-                    <div class="announcement-content">
-                        <h3>夏日庆典活动开启</h3>
-                        <p>夏日庆典限时活动现已开启，参与活动可获得限定服装和丰厚奖励。活动时间：6月10日-7月1日。</p>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <img src="https://via.placeholder.com/60x60?text=F2" alt="特色功能">
+                        </div>
+                        <h4>沉浸剧情</h4>
+                        <p>精心编写的主线剧情与角色故事，带你体验感人至深的冒险旅程</p>
                     </div>
-                </div>
-                <div class="announcement-item">
-                    <div class="announcement-date">
-                        <div class="announcement-day">5</div>
-                        <div class="announcement-month">6月</div>
-                    </div>
-                    <div class="announcement-content">
-                        <h3>新角色"星辰之子"即将上线</h3>
-                        <p>全新SR角色"星辰之子"将于下周正式加入游戏，掌握星辰之力的神秘角色，敬请期待！</p>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <img src="https://via.placeholder.com/60x60?text=F3" alt="特色功能">
+                        </div>
+                        <h4>实时对战</h4>
+                        <p>创新的实时战斗系统，考验玩家策略与反应能力的同时保持轻松体验</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- 游戏动态 -->
-    <section id="news" class="section news">
-        <div class="container">
-            <div class="section-title">
-                <h2>游戏动态</h2>
-                <p>最新游戏进展与开发消息</p>
-            </div>
-            <div class="news-grid">
-                <div class="news-card">
-                    <div class="news-image">
-                        <img src="https://via.placeholder.com/400x250/FFB6C1/FFFFFF?text=开发进度" alt="开发进度">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">2025年6月9日</div>
-                        <h3 class="news-title">开发进度更新</h3>
-                        <p>我们正在全力开发中，目前第一章剧本已经完成。团队正在进行游戏内容的完善和测试。</p>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-image">
-                        <img src="https://via.placeholder.com/400x250/87CEFA/FFFFFF?text=角色设计" alt="角色设计">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">2025年6月7日</div>
-                        <h3 class="news-title">角色设计展示</h3>
-                        <p>本页面部分角色图为保持神秘而来源于网络，仅用于展示效果。实际游戏角色设计将更加精美。</p>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-image">
-                        <img src="https://via.placeholder.com/400x250/D6F3FF/333333?text=众筹准备" alt="众筹准备">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">2025年6月5日</div>
-                        <h3 class="news-title">众筹准备中</h3>
-                        <p>目前CG和立绘修改和完善中，随后会进行众筹。感谢所有支持我们的玩家！</p>
-                    </div>
+            <div class="intro-screenshots">
+                <h3>游戏截图</h3>
+                <div class="screenshots-container">
+                    <div class="screenshot"><img src="https://via.placeholder.com/400x200?text=Screenshot+1" alt="游戏截图1"></div>
+                    <div class="screenshot"><img src="https://via.placeholder.com/400x200?text=Screenshot+2" alt="游戏截图2"></div>
+                    <div class="screenshot"><img src="https://via.placeholder.com/400x200?text=Screenshot+3" alt="游戏截图3"></div>
                 </div>
             </div>
         </div>
@@ -645,33 +897,63 @@
     <!-- 联系我们 -->
     <section id="contact" class="section contact">
         <div class="container">
-            <div class="section-title">
+            <div class="section-header">
                 <h2>联系我们</h2>
-                <p>有任何问题或建议，欢迎联系我们</p>
+                <p>有任何问题或建议？请随时联系我们</p>
             </div>
-            <div style="text-align: center; margin-bottom: 30px;">
-                <p><strong>官方邮箱：</strong>contact@qingkong-game.com</p>
-                <p><strong>客服QQ：</strong>123456789</p>
-                <p><strong>官方微信公众号：</strong>青空之恋游戏</p>
-            </div>
-            <div style="max-width: 500px; margin: 0 auto;">
-                <form>
-                    <div style="margin-bottom: 20px;">
-                        <label for="name" style="display: block; margin-bottom: 5px;">姓名</label>
-                        <input type="text" id="name" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i>&#9742;</i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>电话</h4>
+                            <p>+86 123 4567 8901</p>
+                        </div>
                     </div>
-                    <div style="margin-bottom: 20px;">
-                        <label for="email" style="display: block; margin-bottom: 5px;">邮箱</label>
-                        <input type="email" id="email" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i>&#9993;</i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>电子邮箱</h4>
+                            <p>contact@qingkong.com</p>
+                        </div>
                     </div>
-                    <div style="margin-bottom: 20px;">
-                        <label for="message" style="display: block; margin-bottom: 5px;">留言</label>
-                        <textarea id="message" rows="5" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;"></textarea>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i>&#127968;</i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>地址</h4>
+                            <p>中国上海市浦东新区某某路123号</p>
+                        </div>
                     </div>
-                    <div style="text-align: center;">
-                        <button type="submit" class="btn">提交</button>
-                    </div>
-                </form>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">您的姓名</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">电子邮箱</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">主题</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">留言内容</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">发送消息</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
@@ -679,105 +961,242 @@
     <!-- 页脚 -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div>
-                    <div class="footer-logo">青空之恋</div>
-                    <p>探索充满魔法与冒险的二次元幻想世界</p>
-                    <div class="social-links">
-                        <a href="#"><span>🌐</span></a>
-                        <a href="#"><span>📱</span></a>
-                        <a href="#"><span>📷</span></a>
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <img src="https://via.placeholder.com/150x50?text=Logo" alt="青空之恋Logo">
+                    <p>《青空之恋》是一款充满魔法与冒险的二次元角色扮演游戏，让玩家沉浸在精彩纷呈的奇幻世界中。</p>
+                    <div class="social-media">
+                        <a href="#" class="social-icon"><i>&#128279;</i></a>
+                        <a href="#" class="social-icon"><i>&#128279;</i></a>
+                        <a href="#" class="social-icon"><i>&#128279;</i></a>
                     </div>
                 </div>
                 <div class="footer-links">
-                    <h3>导航</h3>
-                    <ul>
-                        <li><a href="#">首页</a></li>
-                        <li><a href="#features">游戏特色</a></li>
-                        <li><a href="#characters">角色介绍</a></li>
-                        <li><a href="#news">游戏动态</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h3>帮助</h3>
-                    <ul>
-                        <li><a href="#">常见问题</a></li>
-                        <li><a href="#">游戏指南</a></li>
-                        <li><a href="#">账号问题</a></li>
-                        <li><a href="#contact">联系我们</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h3>法律</h3>
-                    <ul>
-                        <li><a href="#">隐私政策</a></li>
-                        <li><a href="#">服务条款</a></li>
-                        <li><a href="#">免责声明</a></li>
-                    </ul>
+                    <div class="footer-links-column">
+                        <h3>快速链接</h3>
+                        <ul>
+                            <li><a href="#home">首页</a></li>
+                            <li><a href="#game-intro">游戏介绍</a></li>
+                            <li><a href="#characters">角色列表</a></li>
+                            <li><a href="#news">游戏动态</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-column">
+                        <h3>支持</h3>
+                        <ul>
+                            <li><a href="#">常见问题</a></li>
+                            <li><a href="#">客户服务</a></li>
+                            <li><a href="#">游戏攻略</a></li>
+                            <li><a href="#contact">联系我们</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links-column">
+                        <h3>法律</h3>
+                        <ul>
+                            <li><a href="#">服务条款</a></li>
+                            <li><a href="#">隐私政策</a></li>
+                            <li><a href="#">儿童保护</a></li>
+                            <li><a href="#">版权信息</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 青空之恋游戏. All rights reserved.</p>
+                <div class="copyright">
+                    &copy; 2025 青空之恋 版权所有
+                    <!-- 管理员入口 -->
+                    <a href="admin.html" class="admin-link">管理员入口</a>
+                </div>
+                <div class="footer-policies">
+                    <a href="#">隐私政策</a>
+                    <a href="#">服务条款</a>
+                </div>
             </div>
         </div>
     </footer>
 
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top" id="backToTop">
+        <i>&uarr;</i>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 移动端菜单切换
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navMenu = document.querySelector('.nav-menu');
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始化轮播图
+            initCarousel();
             
-            menuToggle.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-                menuToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+            // 初始化滚动动画
+            initScrollAnimations();
+            
+            // 初始化返回顶部按钮
+            initBackToTop();
+            
+            // 初始化移动菜单
+            initMobileMenu();
+            
+            // 初始化联系表单
+            initContactForm();
+        });
+
+        // 轮播图功能
+        function initCarousel() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.indicator');
+            let currentSlide = 0;
+            let interval;
+
+            // 显示指定的幻灯片
+            function showSlide(index) {
+                // 边界处理
+                if (index < 0) index = slides.length - 1;
+                if (index >= slides.length) index = 0;
+                
+                // 隐藏所有幻灯片
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                
+                // 显示当前幻灯片
+                slides[index].classList.add('active');
+                indicators[index].classList.add('active');
+                currentSlide = index;
+            }
+            
+            // 自动轮播
+            function startAutoSlide() {
+                interval = setInterval(() => {
+                    showSlide(currentSlide + 1);
+                }, 5000);
+            }
+            
+            // 暂停自动轮播
+            function stopAutoSlide() {
+                clearInterval(interval);
+            }
+            
+            // 点击指示器切换幻灯片
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    showSlide(index);
+                    stopAutoSlide();
+                    startAutoSlide();
+                });
             });
             
-            // 平滑滚动到锚点
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
+            // 开始自动轮播
+            startAutoSlide();
+        }
+        
+        // 滚动动画
+        function initScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.feature-item, .screenshot');
+            
+            function isElementInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top <= window.innerHeight * 0.75 &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            function checkVisibility() {
+                animatedElements.forEach(element => {
+                    if (isElementInViewport(element)) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // 初始样式
+            animatedElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+            
+            // 检查可见性
+            window.addEventListener('scroll', checkVisibility);
+            window.addEventListener('resize', checkVisibility);
+            
+            // 初始检查
+            checkVisibility();
+        }
+        
+        // 返回顶部按钮
+        function initBackToTop() {
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // 移动菜单
+        function initMobileMenu() {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const closeMenu = document.querySelector('.close-menu');
+            
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.style.right = '0';
+            });
+            
+            closeMenu.addEventListener('click', () => {
+                mobileMenu.style.right = '-100%';
+            });
+            
+            // 点击菜单项关闭菜单
+            const mobileMenuItems = mobileMenu.querySelectorAll('a');
+            mobileMenuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    mobileMenu.style.right = '-100%';
+                });
+            });
+        }
+        
+        // 联系表单
+        function initContactForm() {
+            const contactForm = document.getElementById('contactForm');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     
-                    // 关闭移动菜单
-                    navMenu.classList.remove('active');
-                    menuToggle.textContent = '☰';
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        subject: document.getElementById('subject').value,
+                        message: document.getElementById('message').value,
+                    };
                     
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
+                    // 存储到本地存储
+                    const storedFeedback = JSON.parse(localStorage.getItem('userFeedback')) || [];
+                    storedFeedback.push({
+                        ...formData,
+                        timestamp: new Date().toISOString(),
+                        status: '未读'
+                    });
+                    localStorage.setItem('userFeedback', JSON.stringify(storedFeedback));
                     
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 70,
-                            behavior: 'smooth'
-                        });
-                    }
+                    // 表单提交后清空输入
+                    contactForm.reset();
+                    
+                    // 显示成功消息
+                    alert('谢谢您的留言！我们会尽快回复您。');
                 });
-            });
-            
-            // 滚动时更新导航激活状态
-            window.addEventListener('scroll', function() {
-                let current = '';
-                const sections = document.querySelectorAll('section');
-                const navLinks = document.querySelectorAll('.nav-link');
-                
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    if (pageYOffset >= (sectionTop - 150)) {
-                        current = section.getAttribute('id');
-                    }
-                });
-                
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    const href = link.getAttribute('href');
-                    if (href === '#' + current || (href === '#' && current === '')) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-        });
+            }
+        }
     </script>
 </body>
 </html>
