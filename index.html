@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青空之恋 - 二次元游戏官方网站</title>
+    <style>
+        /* 基础样式 */
+        :root {
+            --color-primary: #FF9EB5;
+            --color-primary-light: #FFD6E0;
+            --color-primary-dark: #FF7096;
+            --color-secondary: #A9DEF9;
+            --color-secondary-light: #D6F3FF;
+            --color-secondary-dark: #7AC5EA;
+            --color-text: #333333;
+            --color-text-light: #666666;
+            --color-bg: #FFFFFF;
+            --color-bg-light: #F8F9FA;
+            --border-radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Microsoft YaHei', sans-serif;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-primary-dark);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--color-primary-dark);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: var(--color-text-light);
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 112, 150, 0.4);
+        }
+
+        /* 导航栏 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-primary-dark);
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-item {
+            margin: 0 15px;
+        }
+
+        .nav-link {
+            color: var(--color-text);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--color-primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* 英雄区域 */
+        .hero {
+            padding: 120px 0 60px;
+            background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary-light));
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--color-primary-dark);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--color-text);
+        }
+
+        /* 特色区域 */
+        .features {
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--color-primary);
+        }
+
+        .feature-title {
+            margin-bottom: 15px;
+            color: var(--color-primary-dark);
+        }
+
+        /* 角色区域 */
+        .characters {
+            background-color: var(--color-bg-light);
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .character-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .character-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .character-image {
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .character-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .character-card:hover .character-image img {
+            transform: scale(1.1);
+        }
+
+        .character-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .character-name {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--color-primary-dark);
+        }
+
+        .character-role {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: 10px;
+        }
+
+        /* 游戏公告 */
+        .announcements-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .announcement-item {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .announcement-date {
+            padding-right: 20px;
+            margin-right: 20px;
+            border-right: 1px solid #eee;
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .announcement-day {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            line-height: 1;
+        }
+
+        .announcement-month {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        .announcement-content h3 {
+            margin-bottom: 10px;
+            color: var(--color-primary-dark);
+        }
+
+        /* 游戏动态 */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .news-image {
+            height: 200px;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-date {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: 10px;
+        }
+
+        .news-title {
+            margin-bottom: 10px;
+            color: var(--color-primary-dark);
+        }
+
+        /* 底部区域 */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .footer-links h3 {
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-primary-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: #aaa;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--color-primary-light);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            color: #aaa;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 70%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 30px 0;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-item {
+                margin: 15px 0;
+            }
+
+            .hero {
+                padding: 100px 0 50px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .features-grid,
+            .characters-grid,
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .announcement-item {
+                flex-direction: column;
+            }
+
+            .announcement-date {
+                padding-right: 0;
+                margin-right: 0;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .announcement-day,
+            .announcement-month {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">青空之恋</div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#" class="nav-link active">首页</a></li>
+                    <li class="nav-item"><a href="#features" class="nav-link">游戏特色</a></li>
+                    <li class="nav-item"><a href="#characters" class="nav-link">角色介绍</a></li>
+                    <li class="nav-item"><a href="#announcements" class="nav-link">游戏公告</a></li>
+                    <li class="nav-item"><a href="#news" class="nav-link">游戏动态</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">联系我们</a></li>
+                </ul>
+                <div class="menu-toggle">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">青空之恋 - 二次元浪漫冒险</h1>
+                <p class="hero-description">探索充满魔法与冒险的幻想世界，与各种性格鲜明的角色一起成长，体验感人至深的故事</p>
+                <a href="#" class="btn">立即体验</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特色区域 -->
+    <section id="features" class="section features">
+        <div class="container">
+            <div class="section-title">
+                <h2>游戏特色</h2>
+                <p>让您爱不释手的游戏体验</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">精美角色</h3>
+                    <p>数十位个性鲜明的二次元角色，每位角色都有独特的技能与成长路线</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <h3 class="feature-title">沉浸剧情</h3>
+                    <p>精心编写的主线剧情与角色故事，带你体验感人至深的冒险旅程</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚔️</div>
+                    <h3 class="feature-title">实时对战</h3>
+                    <p>创新的实时战斗系统，考验玩家策略与反应能力的同时保持轻松体验</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 角色区域 -->
+    <section id="characters" class="section characters">
+        <div class="container">
+            <div class="section-title">
+                <h2>角色介绍</h2>
+                <p>每个角色都有独特的故事和能力</p>
+            </div>
+            <div class="characters-grid">
+                <div class="character-card">
+                    <div class="character-image">
+                        <img src="https://via.placeholder.com/300x400/FFB6C1/FFFFFF?text=小芸" alt="角色小芸">
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">小芸</h3>
+                        <p class="character-role">治疗师</p>
+                        <p>温柔善良的女孩，拥有强大的治愈能力</p>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image">
+                        <img src="https://via.placeholder.com/300x400/87CEFA/FFFFFF?text=雯雯" alt="角色雯雯">
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">雯雯</h3>
+                        <p class="character-role">法师</p>
+                        <p>聪明机智的少女，擅长元素魔法</p>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image">
+                        <img src="https://via.placeholder.com/300x400/D6F3FF/333333?text=柔风" alt="角色柔风">
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">柔风</h3>
+                        <p class="character-role">战士</p>
+                        <p>勇敢坚强的少年，擅长近身战斗</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 游戏公告 -->
+    <section id="announcements" class="section announcements">
+        <div class="container">
+            <div class="section-title">
+                <h2>游戏公告</h2>
+                <p>了解最新游戏动态和更新信息</p>
+            </div>
+            <div class="announcements-list">
+                <div class="announcement-item">
+                    <div class="announcement-date">
+                        <div class="announcement-day">15</div>
+                        <div class="announcement-month">6月</div>
+                    </div>
+                    <div class="announcement-content">
+                        <h3>游戏版本更新1.2.0</h3>
+                        <p>本次更新包含多项游戏优化和新功能，新增了"星辰之塔"挑战玩法，同时调整了部分角色技能平衡性。</p>
+                    </div>
+                </div>
+                <div class="announcement-item">
+                    <div class="announcement-date">
+                        <div class="announcement-day">10</div>
+                        <div class="announcement-month">6月</div>
+                    </div>
+                    <div class="announcement-content">
+                        <h3>夏日庆典活动开启</h3>
+                        <p>夏日庆典限时活动现已开启，参与活动可获得限定服装和丰厚奖励。活动时间：6月10日-7月1日。</p>
+                    </div>
+                </div>
+                <div class="announcement-item">
+                    <div class="announcement-date">
+                        <div class="announcement-day">5</div>
+                        <div class="announcement-month">6月</div>
+                    </div>
+                    <div class="announcement-content">
+                        <h3>新角色"星辰之子"即将上线</h3>
+                        <p>全新SR角色"星辰之子"将于下周正式加入游戏，掌握星辰之力的神秘角色，敬请期待！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 游戏动态 -->
+    <section id="news" class="section news">
+        <div class="container">
+            <div class="section-title">
+                <h2>游戏动态</h2>
+                <p>最新游戏进展与开发消息</p>
+            </div>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://via.placeholder.com/400x250/FFB6C1/FFFFFF?text=开发进度" alt="开发进度">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">2025年6月9日</div>
+                        <h3 class="news-title">开发进度更新</h3>
+                        <p>我们正在全力开发中，目前第一章剧本已经完成。团队正在进行游戏内容的完善和测试。</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://via.placeholder.com/400x250/87CEFA/FFFFFF?text=角色设计" alt="角色设计">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">2025年6月7日</div>
+                        <h3 class="news-title">角色设计展示</h3>
+                        <p>本页面部分角色图为保持神秘而来源于网络，仅用于展示效果。实际游戏角色设计将更加精美。</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="https://via.placeholder.com/400x250/D6F3FF/333333?text=众筹准备" alt="众筹准备">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">2025年6月5日</div>
+                        <h3 class="news-title">众筹准备中</h3>
+                        <p>目前CG和立绘修改和完善中，随后会进行众筹。感谢所有支持我们的玩家！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>联系我们</h2>
+                <p>有任何问题或建议，欢迎联系我们</p>
+            </div>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <p><strong>官方邮箱：</strong>contact@qingkong-game.com</p>
+                <p><strong>客服QQ：</strong>123456789</p>
+                <p><strong>官方微信公众号：</strong>青空之恋游戏</p>
+            </div>
+            <div style="max-width: 500px; margin: 0 auto;">
+                <form>
+                    <div style="margin-bottom: 20px;">
+                        <label for="name" style="display: block; margin-bottom: 5px;">姓名</label>
+                        <input type="text" id="name" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label for="email" style="display: block; margin-bottom: 5px;">邮箱</label>
+                        <input type="email" id="email" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label for="message" style="display: block; margin-bottom: 5px;">留言</label>
+                        <textarea id="message" rows="5" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;"></textarea>
+                    </div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">青空之恋</div>
+                    <p>探索充满魔法与冒险的二次元幻想世界</p>
+                    <div class="social-links">
+                        <a href="#"><span>🌐</span></a>
+                        <a href="#"><span>📱</span></a>
+                        <a href="#"><span>📷</span></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>导航</h3>
+                    <ul>
+                        <li><a href="#">首页</a></li>
+                        <li><a href="#features">游戏特色</a></li>
+                        <li><a href="#characters">角色介绍</a></li>
+                        <li><a href="#news">游戏动态</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>帮助</h3>
+                    <ul>
+                        <li><a href="#">常见问题</a></li>
+                        <li><a href="#">游戏指南</a></li>
+                        <li><a href="#">账号问题</a></li>
+                        <li><a href="#contact">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>法律</h3>
+                    <ul>
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">服务条款</a></li>
+                        <li><a href="#">免责声明</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 青空之恋游戏. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动端菜单切换
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                menuToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+            });
+            
+            // 平滑滚动到锚点
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 关闭移动菜单
+                    navMenu.classList.remove('active');
+                    menuToggle.textContent = '☰';
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // 滚动时更新导航激活状态
+            window.addEventListener('scroll', function() {
+                let current = '';
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('.nav-link');
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if (href === '#' + current || (href === '#' && current === '')) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
