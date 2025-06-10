@@ -1,7 +1,1486 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>青空之恋 - 二次元游戏官方网站</title>
-<style>*{margin:0;padding:0;box-sizing:bor... (还有36个字符，已生成，只是没存到 message 里)
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青空之恋 - 二次元游戏官方网站</title>
+    <style>
+        /* 基本样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #fef6f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        img {
+            max-width: 100%;
+        }
+        
+        button {
+            cursor: pointer;
+        }
+        
+        ul, ol {
+            list-style: none;
+        }
+        
+        /* 鼠标粒子效果 */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none; /* 确保不会影响页面交互 */
+        }
+        
+        /* 布局 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, #FF9EB5 0%, #FFD6E0 100%);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .site-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .site-logo img {
+            height: 60px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+        
+        .site-logo h1 {
+            font-size: 24px;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 导航栏 */
+        nav ul {
+            display: flex;
+            gap: 25px;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: #fff;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* 移动端菜单按钮 */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .mobile-menu-btn span {
+            width: 30px;
+            height: 3px;
+            background: white;
+            border-radius: 5px;
+            transition: all 0.3s linear;
+        }
+        
+        /* 轮播图 */
+        .hero-slider {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            background: linear-gradient(180deg, #FFD6E0 0%, #fef6f9 100%);
+            margin-bottom: 40px;
+        }
+        
+        .slider-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .slider-item {
+            min-width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            padding: 0 20%;
+        }
+        
+        .slider-item h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .slider-item p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 700px;
+        }
+        
+        .slider-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-dot.active {
+            background: #fff;
+            transform: scale(1.2);
+        }
+        
+        /* 游戏介绍 */
+        .game-intro {
+            padding: 60px 0;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            color: #FF9EB5;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FF9EB5, transparent);
+        }
+        
+        .game-intro-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .game-intro-content p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        /* 游戏特色 */
+        .game-features {
+            padding: 60px 0;
+            background-color: #f9f9f9;
+            margin-bottom: 40px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+        
+        .feature-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: #FFD6E0;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #FF7BAC;
+        }
+        
+        .feature-card h3 {
+            font-size: 24px;
+            color: #FF9EB5;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        /* 游戏角色 */
+        .characters {
+            padding: 60px 0;
+            background-color: #fff;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+        
+        .character-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 30px;
+            padding: 30px 0;
+            margin: 0 -20px;
+            padding: 0 20px;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        .character-slider::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        .character-card {
+            flex: 0 0 300px;
+            scroll-snap-align: center;
+            background: linear-gradient(135deg, #A9DEF9 0%, #D6F3FF 100%);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .character-img {
+            height: 250px;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .character-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .character-card:hover .character-img img {
+            transform: scale(1.05);
+        }
+        
+        .character-name {
+            font-size: 24px;
+            color: #006FA6;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .character-description {
+            font-size: 14px;
+            color: #00507A;
+            line-height: 1.6;
+            flex: 1;
+        }
+        
+        /* 游戏截图 */
+        .screenshots {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #F9F9F9 0%, #F5F5F5 100%);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px 0;
+        }
+        
+        .screenshot-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            height: 200px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .screenshot-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .screenshot-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: filter 0.3s ease;
+        }
+        
+        .screenshot-item:hover img {
+            filter: brightness(1.1);
+        }
+        
+        .screenshot-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+        }
+        
+        .screenshot-item:hover .screenshot-overlay {
+            opacity: 1;
+        }
+        
+        /* 游戏动态 */
+        .game-news {
+            padding: 60px 0;
+            background-color: #fff;
+            margin-bottom: 40px;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+        
+        .news-card {
+            background: #f9f9f9;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .news-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .news-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .news-card:hover .news-img img {
+            transform: scale(1.05);
+        }
+        
+        .news-content {
+            padding: 20px;
+        }
+        
+        .news-date {
+            font-size: 14px;
+            color: #FF9EB5;
+            margin-bottom: 10px;
+        }
+        
+        .news-title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .news-excerpt {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .news-link {
+            color: #FF9EB5;
+            font-weight: 500;
+            display: inline-block;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+        
+        .news-link:hover {
+            color: #FF7BAC;
+        }
+        
+        /* 社区模块 */
+        .community {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #FFD6E0 0%, #FEF6F9 100%);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .community-groups {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 30px 0;
+        }
+        
+        .community-group {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            width: 250px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .community-group:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .community-icon {
+            width: 70px;
+            height: 70px;
+            background: #FFD6E0;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #FF7BAC;
+        }
+        
+        .community-group h3 {
+            font-size: 20px;
+            color: #FF9EB5;
+            margin-bottom: 10px;
+        }
+        
+        .community-group p {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .community-group .btn {
+            background: #FF9EB5;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .community-group .btn:hover {
+            background: #FF7BAC;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: #333;
+            color: #fff;
+            padding: 60px 0 30px;
+            position: relative;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo img {
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+        
+        .footer-logo h2 {
+            font-size: 20px;
+            color: #FF9EB5;
+        }
+        
+        .footer-about p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #bbb;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            background: #444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: #FF9EB5;
+            transform: translateY(-5px);
+        }
+        
+        .footer-links h3, .footer-contact h3 {
+            color: #FF9EB5;
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-links h3:after, .footer-contact h3:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #FF9EB5;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: #bbb;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links ul li a:hover {
+            color: #FF9EB5;
+            padding-left: 5px;
+        }
+        
+        .contact-info {
+            margin-bottom: 20px;
+        }
+        
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #bbb;
+            font-size: 14px;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: #FF9EB5;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+        }
+        
+        .footer-bottom p {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #FF9EB5;
+            color: #fff;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 158, 181, 0.4);
+        }
+        
+        .btn:hover {
+            background: #FF7BAC;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 158, 181, 0.6);
+        }
+        
+        /* 截图查看器 */
+        .screenshot-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .screenshot-viewer img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .close-viewer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .close-viewer:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* 管理员入口 */
+        .admin-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s ease;
+        }
+        
+        .admin-link:hover {
+            color: white;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .slider-item {
+                padding: 0 15%;
+            }
+            
+            .slider-item h2 {
+                font-size: 36px;
+            }
+            
+            .character-card {
+                flex: 0 0 280px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 10px 0;
+            }
+            
+            .site-logo img {
+                height: 40px;
+            }
+            
+            .site-logo h1 {
+                font-size: 20px;
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #FF9EB5;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 99;
+                transform: translateX(-100%);
+                transition: transform 0.4s ease;
+            }
+            
+            .mobile-menu.active {
+                transform: translateX(0);
+            }
+            
+            .mobile-menu ul {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .mobile-menu ul li a {
+                font-size: 18px;
+                padding: 10px 20px;
+                display: block;
+            }
+            
+            .hero-slider {
+                height: 400px;
+            }
+            
+            .slider-item {
+                padding: 0 10%;
+            }
+            
+            .slider-item h2 {
+                font-size: 28px;
+            }
+            
+            .slider-item p {
+                font-size: 16px;
+            }
+            
+            .character-slider {
+                padding: 15px 0;
+            }
+            
+            .character-card {
+                flex: 0 0 250px;
+                height: 350px;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .site-logo h1 {
+                font-size: 18px;
+            }
+            
+            .hero-slider {
+                height: 300px;
+            }
+            
+            .slider-item h2 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+            
+            .slider-item p {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+            
+            .section-title {
+                font-size: 26px;
+            }
+            
+            .character-card {
+                flex: 0 0 230px;
+                height: 320px;
+            }
+            
+            .screenshots-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 鼠标粒子效果 Canvas -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <!-- 头部 -->
+    <header>
+        <div class="container header-container">
+            <div class="site-logo">
+                <img src="https://i.postimg.cc/j5rXS1wz/logo.png" alt="青空之恋 Logo" id="site-logo-img">
+                <h1>青空之恋</h1>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#game-intro">游戏介绍</a></li>
+                    <li><a href="#characters">游戏角色</a></li>
+                    <li><a href="#screenshots">游戏截图</a></li>
+                    <li><a href="#news">游戏动态</a></li>
+                    <li><a href="#community">社区互动</a></li>
+                </ul>
+            </nav>
+            
+            <button class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        
+        <div class="mobile-menu">
+            <ul>
+                <li><a href="#game-intro">游戏介绍</a></li>
+                <li><a href="#characters">游戏角色</a></li>
+                <li><a href="#screenshots">游戏截图</a></li>
+                <li><a href="#news">游戏动态</a></li>
+                <li><a href="#community">社区互动</a></li>
+            </ul>
+        </div>
+    </header>
+    
+    <!-- 轮播图 -->
+    <section class="hero-slider">
+        <div class="slider-container" id="slider-container">
+            <!-- 轮播内容将通过JS动态添加 -->
+        </div>
+        
+        <div class="slider-controls" id="slider-controls">
+            <!-- 轮播控制点将通过JS动态添加 -->
+        </div>
+    </section>
+    
+    <!-- 游戏介绍 -->
+    <section id="game-intro" class="game-intro">
+        <div class="container">
+            <h2 class="section-title">游戏介绍</h2>
+            <div class="game-intro-content" id="game-intro-content">
+                <!-- 游戏介绍内容将通过JS动态添加 -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 游戏特色 -->
+    <section class="game-features">
+        <div class="container">
+            <h2 class="section-title">游戏特色</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💖</div>
+                    <h3>浪漫剧情</h3>
+                    <p>感受令人心动的恋爱故事，邂逅各具特色的美丽角色，体验校园纯爱的美好。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>互动玩法</h3>
+                    <p>丰富的互动选择，不同的选项将引领故事走向不同的发展，每次游戏都是全新体验。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>精美画风</h3>
+                    <p>高质量二次元画风，精致的角色立绘和场景CG，带来视觉上的极致享受。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 游戏角色 -->
+    <section id="characters" class="characters">
+        <div class="container">
+            <h2 class="section-title">游戏角色</h2>
+            <div class="character-slider">
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="https://i.postimg.cc/nLm8yqkr/character1.jpg" alt="樱花">
+                    </div>
+                    <h3 class="character-name">樱花</h3>
+                    <p class="character-description">学生会长，完美优等生人设，外表高冷但内心温柔，喜欢甜食和可爱的小物件。</p>
+                </div>
+                
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="https://i.postimg.cc/HnF63ZxT/character2.jpg" alt="美琴">
+                    </div>
+                    <h3 class="character-name">美琴</h3>
+                    <p class="character-description">音乐社团成员，开朗活泼的阳光少女，擅长吉他演奏，梦想成为一名音乐家。</p>
+                </div>
+                
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="https://i.postimg.cc/gj0XjV8R/character3.jpg" alt="小雪">
+                    </div>
+                    <h3 class="character-name">小雪</h3>
+                    <p class="character-description">图书馆管理员，文静害羞的书虫少女，博学多才但社交能力较弱，喜欢独处时间。</p>
+                </div>
+                
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="https://i.postimg.cc/FRvVSVpd/character4.jpg" alt="凛">
+                    </div>
+                    <h3 class="character-name">凛</h3>
+                    <p class="character-description">体育社团明星，元气满满的运动少女，性格直率豪爽，对朋友非常忠诚。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 游戏截图 -->
+    <section id="screenshots" class="screenshots">
+        <div class="container">
+            <h2 class="section-title">游戏截图</h2>
+            <div class="screenshots-grid" id="screenshots-grid">
+                <!-- 游戏截图将通过JS动态添加 -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- 截图查看器 -->
+    <div class="screenshot-viewer" id="screenshot-viewer">
+        <span class="close-viewer">&times;</span>
+        <img src="" alt="游戏截图" id="viewer-image">
+    </div>
+    
+    <!-- 游戏动态 -->
+    <section id="news" class="game-news">
+        <div class="container">
+            <h2 class="section-title">游戏动态</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://i.postimg.cc/CLCBS0z8/news1.jpg" alt="游戏更新">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">2025年5月20日</div>
+                        <h3 class="news-title">《青空之恋》2.0版本更新公告</h3>
+                        <p class="news-excerpt">全新版本将于下周推出，新增两位女主角色，全新校园场景，以及多条分支剧情！</p>
+                        <a href="#" class="news-link">阅读更多 →</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://i.postimg.cc/G34F6S1q/news2.jpg" alt="游戏活动">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">2025年5月15日</div>
+                        <h3 class="news-title">夏日特别活动「烟花之约」开启</h3>
+                        <p class="news-excerpt">参与限时活动，收集活动道具，解锁专属夏日服装和CG，与心仪的角色共赏夏夜烟花！</p>
+                        <a href="#" class="news-link">阅读更多 →</a>
+                    </div>
+                </div>
+                
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://i.postimg.cc/02VyZzwJ/news3.jpg" alt="游戏周年">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">2025年5月1日</div>
+                        <h3 class="news-title">《青空之恋》一周年庆典活动预告</h3>
+                        <p class="news-excerpt">游戏即将迎来一周年庆典，丰富奖励、线上活动、周边抽奖，多重惊喜等你来！</p>
+                        <a href="#" class="news-link">阅读更多 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 社区互动 -->
+    <section id="community" class="community">
+        <div class="container">
+            <h2 class="section-title">社区互动</h2>
+            <div class="community-groups">
+                <div class="community-group">
+                    <div class="community-icon">💬</div>
+                    <h3>官方QQ群</h3>
+                    <p>与其他玩家交流游戏心得，获取第一手游戏资讯。</p>
+                    <button class="btn">加入QQ群</button>
+                </div>
+                
+                <div class="community-group">
+                    <div class="community-icon">🎮</div>
+                    <h3>游戏论坛</h3>
+                    <p>分享游戏攻略，讨论剧情发展，参与官方活动。</p>
+                    <button class="btn">进入论坛</button>
+                </div>
+                
+                <div class="community-group">
+                    <div class="community-icon">📱</div>
+                    <h3>微博超话</h3>
+                    <p>关注最新游戏动态，参与话题讨论，赢取精美周边。</p>
+                    <button class="btn">查看超话</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="https://i.postimg.cc/j5rXS1wz/logo.png" alt="青空之恋 Logo">
+                        <h2>青空之恋</h2>
+                    </div>
+                    <p>《青空之恋》是一款充满浪漫和青春气息的二次元恋爱游戏，让玩家体验纯美的校园恋爱故事。</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weibo">微博</i></a>
+                        <a href="#"><i class="fab fa-qq">QQ</i></a>
+                        <a href="#"><i class="fab fa-weixin">微信</i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#game-intro">游戏介绍</a></li>
+                        <li><a href="#characters">游戏角色</a></li>
+                        <li><a href="#screenshots">游戏截图</a></li>
+                        <li><a href="#news">游戏动态</a></li>
+                        <li><a href="#community">社区互动</a></li>
+                        <li><a href="admin.html" class="admin-link">管理员登录</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>联系我们</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> contact@qingkongzl.com</p>
+                        <p><i class="fas fa-phone"></i> +86 123-4567-8910</p>
+                        <p><i class="fas fa-map-marker-alt"></i> 上海市浦东新区陆家嘴</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 青空之恋 版权所有</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化所有功能
+            initMobileMenu();
+            loadDataFromLocalStorage();
+            initParticlesEffect();
+            
+            // 鼠标粒子效果初始化
+            function initParticlesEffect() {
+                const canvas = document.getElementById('particles-canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // 设置画布大小为窗口大小
+                function resizeCanvas() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                }
+                
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas);
+                
+                // 创建粒子数组
+                let particles = [];
+                let mouseX = 0;
+                let mouseY = 0;
+                
+                // 跟踪鼠标位置
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    // 在鼠标位置添加新粒子
+                    for (let i = 0; i < 2; i++) {
+                        particles.push({
+                            x: mouseX,
+                            y: mouseY,
+                            size: Math.random() * 3 + 1,
+                            speedX: Math.random() * 2 - 1,
+                            speedY: Math.random() * 2 - 1,
+                            color: `rgba(255, ${Math.floor(Math.random() * 100) + 150}, ${Math.floor(Math.random() * 100) + 175}, ${Math.random() * 0.5 + 0.3})`,
+                            life: 100
+                        });
+                    }
+                });
+                
+                // 处理粒子移动和绘制
+                function updateParticles() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    for (let i = 0; i < particles.length; i++) {
+                        let p = particles[i];
+                        
+                        p.x += p.speedX;
+                        p.y += p.speedY;
+                        p.life -= 1;
+                        
+                        // 绘制粒子
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color;
+                        ctx.fill();
+                        
+                        // 如果粒子生命结束或离开屏幕，删除它
+                        if (p.life <= 0 || p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
+                            particles.splice(i, 1);
+                            i--;
+                        }
+                    }
+                    
+                    requestAnimationFrame(updateParticles);
+                }
+                
+                updateParticles();
+            }
+            
+            // 移动端菜单
+            function initMobileMenu() {
+                const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+                const mobileMenu = document.querySelector('.mobile-menu');
+                const mobileMenuLinks = document.querySelectorAll('.mobile-menu ul li a');
+                
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('active');
+                    document.body.classList.toggle('menu-open');
+                });
+                
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.remove('active');
+                        document.body.classList.remove('menu-open');
+                    });
+                });
+            }
+            
+            // 初始化轮播图
+            function initSlider(sliderData) {
+                const sliderContainer = document.getElementById('slider-container');
+                const sliderControls = document.getElementById('slider-controls');
+                
+                if (!sliderContainer || !sliderControls) return;
+                
+                // 如果没有数据，使用默认数据
+                if (!sliderData || sliderData.length === 0) {
+                    sliderData = [
+                        {
+                            title: "青空之恋 - 心动之旅",
+                            description: "踏入青春校园，与美少女们展开心动邂逅，谱写专属于你的恋爱故事。",
+                            image: "https://i.postimg.cc/FsxW4YtN/slider1.jpg",
+                            buttonText: "立即下载",
+                            buttonLink: "#"
+                        },
+                        {
+                            title: "四季恋语",
+                            description: "从春樱绽放到冬雪飘零，在四季更迭中感受不同的恋爱氛围，寻找属于你的真爱。",
+                            image: "https://i.postimg.cc/sfJn7Zyn/slider2.jpg",
+                            buttonText: "了解更多",
+                            buttonLink: "#"
+                        },
+                        {
+                            title: "全新角色登场",
+                            description: "神秘转学生带来全新剧情，揭开校园秘密，开启未知的恋爱可能。",
+                            image: "https://i.postimg.cc/XvCRW82M/slider3.jpg",
+                            buttonText: "查看详情",
+                            buttonLink: "#"
+                        }
+                    ];
+                }
+                
+                // 清空容器
+                sliderContainer.innerHTML = '';
+                sliderControls.innerHTML = '';
+                
+                // 添加轮播项
+                sliderData.forEach((item, index) => {
+                    // 创建轮播项
+                    const sliderItem = document.createElement('div');
+                    sliderItem.className = 'slider-item';
+                    sliderItem.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${item.image}')`;
+                    
+                    sliderItem.innerHTML = `
+                        <h2>${item.title}</h2>
+                        <p>${item.description}</p>
+                        <a href="${item.buttonLink}" class="btn">${item.buttonText}</a>
+                    `;
+                    
+                    sliderContainer.appendChild(sliderItem);
+                    
+                    // 创建控制点
+                    const dot = document.createElement('div');
+                    dot.className = `slider-dot ${index === 0 ? 'active' : ''}`;
+                    dot.dataset.index = index;
+                    
+                    dot.addEventListener('click', () => {
+                        currentSlide = index;
+                        updateSlider();
+                    });
+                    
+                    sliderControls.appendChild(dot);
+                });
+                
+                // 轮播逻辑
+                let currentSlide = 0;
+                const totalSlides = sliderData.length;
+                
+                function updateSlider() {
+                    sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+                    
+                    // 更新控制点状态
+                    document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentSlide);
+                    });
+                }
+                
+                // 自动轮播
+                let slideInterval = setInterval(nextSlide, 5000);
+                
+                function nextSlide() {
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    updateSlider();
+                }
+                
+                // 当用户交互时暂停自动轮播
+                sliderContainer.addEventListener('mouseenter', () => {
+                    clearInterval(slideInterval);
+                });
+                
+                sliderContainer.addEventListener('mouseleave', () => {
+                    slideInterval = setInterval(nextSlide, 5000);
+                });
+            }
+            
+            // 初始化游戏介绍
+            function initGameIntro(introData) {
+                const gameIntroContent = document.getElementById('game-intro-content');
+                
+                if (!gameIntroContent) return;
+                
+                // 如果没有数据，使用默认数据
+                if (!introData) {
+                    introData = {
+                        content: `
+                            <p>《青空之恋》是一款以校园恋爱为主题的二次元视觉小说游戏，舞台设定在风景如画的千樱高中。作为一名普通的高中生，主角在樱花盛开的四月，邂逅了各具魅力的少女们，并逐渐展开了一段段令人心动的恋爱故事。</p>
+                            <p>游戏采用精美的二次元画风，配以悦耳的音乐和丰富的剧情选项，让玩家可以根据自己的喜好做出选择，影响故事的发展方向和结局。每个角色都有独特的性格、背景和故事线，通过多周目游戏，可以逐一攻略心仪的角色。</p>
+                            <p>除了主线恋爱剧情外，游戏还融入了校园生活、社团活动、节日庆典等丰富元素，为玩家呈现一个完整而生动的校园世界。定期更新的活动和额外内容，也会为游戏增添更多惊喜。</p>
+                            <p>无论你是视觉小说的忠实粉丝，还是刚接触恋爱游戏的新手，《青空之恋》都能带给你一段难忘的心动体验！</p>
+                        `
+                    };
+                }
+                
+                // 设置内容
+                gameIntroContent.innerHTML = introData.content;
+            }
+            
+            // 初始化游戏截图
+            function initScreenshots(screenshotsData) {
+                const screenshotsGrid = document.getElementById('screenshots-grid');
+                const screenshotViewer = document.getElementById('screenshot-viewer');
+                const viewerImage = document.getElementById('viewer-image');
+                const closeViewer = document.querySelector('.close-viewer');
+                
+                if (!screenshotsGrid || !screenshotViewer || !viewerImage || !closeViewer) return;
+                
+                // 如果没有数据，使用默认数据
+                if (!screenshotsData || screenshotsData.length === 0) {
+                    screenshotsData = [
+                        { image: "https://i.postimg.cc/bvL1JHvH/screenshot1.jpg", title: "主界面" },
+                        { image: "https://i.postimg.cc/RVmQKC6n/screenshot2.jpg", title: "樱花约会剧情" },
+                        { image: "https://i.postimg.cc/sXDw0t4v/screenshot3.jpg", title: "教室场景" },
+                        { image: "https://i.postimg.cc/8kgVrcZ7/screenshot4.jpg", title: "音乐室场景" },
+                        { image: "https://i.postimg.cc/K8rpsZVW/screenshot5.jpg", title: "屋顶告白场景" },
+                        { image: "https://i.postimg.cc/d3YH0bYR/screenshot6.jpg", title: "图书馆场景" }
+                    ];
+                }
+                
+                // 清空容器
+                screenshotsGrid.innerHTML = '';
+                
+                // 添加截图项
+                screenshotsData.forEach((item, index) => {
+                    const screenshotItem = document.createElement('div');
+                    screenshotItem.className = 'screenshot-item';
+                    screenshotItem.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}">
+                        <div class="screenshot-overlay">
+                            <span>${item.title}</span>
+                        </div>
+                    `;
+                    
+                    screenshotItem.addEventListener('click', () => {
+                        viewerImage.src = item.image;
+                        viewerImage.alt = item.title;
+                        screenshotViewer.style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
+                    });
+                    
+                    screenshotsGrid.appendChild(screenshotItem);
+                });
+                
+                // 关闭查看器
+                closeViewer.addEventListener('click', () => {
+                    screenshotViewer.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+                
+                // 点击空白处关闭
+                screenshotViewer.addEventListener('click', (e) => {
+                    if (e.target === screenshotViewer) {
+                        screenshotViewer.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+            
+            // 从localStorage加载数据
+            function loadDataFromLocalStorage() {
+                try {
+                    // 加载LOGO
+                    const logoData = localStorage.getItem('qingkong_logo');
+                    if (logoData) {
+                        const siteLogoImg = document.getElementById('site-logo-img');
+                        const footerLogoImg = document.querySelector('.footer-logo img');
+                        if (siteLogoImg) siteLogoImg.src = logoData;
+                        if (footerLogoImg) footerLogoImg.src = logoData;
+                    }
+                    
+                    // 加载轮播图数据
+                    const sliderData = JSON.parse(localStorage.getItem('qingkong_carousel'));
+                    initSlider(sliderData);
+                    
+                    // 加载游戏介绍数据
+                    const introData = JSON.parse(localStorage.getItem('qingkong_intro'));
+                    initGameIntro(introData);
+                    
+                    // 加载游戏截图数据
+                    const screenshotsData = JSON.parse(localStorage.getItem('qingkong_screenshots'));
+                    initScreenshots(screenshotsData);
+                    
+                } catch (error) {
+                    console.error('加载数据失败:', error);
+                    // 出错时使用默认数据
+                    initSlider();
+                    initGameIntro();
+                    initScreenshots();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
